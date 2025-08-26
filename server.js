@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import mysql from 'mysql';
+import userRouter from './routes/usersRout.js'; 
+import pool from './config/dbConfig.js';
 
 const app = express();
 const port = process.env.PORT || 4040;
@@ -9,15 +10,6 @@ app.use(bodyParser.urlencoded({ extended: false }));//helps us read url encoded 
 //app.use(bodyParser.json());//helps us read json data
 app.use(express.json()); // or bodyParser.json()
 
-
-//MySql
-const pool = mysql.createPool({
-    connectionLimit : 10,
-    user: 'root',
-    password: '',
-    host: 'localhost',
-    database: 'posts_db'
-});
 
 /*
 // Add this near the top, after your pool is created
@@ -68,6 +60,20 @@ const createTables = () => {
                 }
             });
 
+        connection.query(
+            `
+            CREATE TABLE IF NOT EXISTS users (
+            email VARCHAR(100) PRIMARY KEY,
+            password VARCHAR(100) NOT NULL
+            )`,
+            (err) => {
+                if(err){
+                    console.error("Faild to create users table:", err.message);
+                }else {
+                    console.log("Users table created");
+                }
+            });
+
 
         connection.query(
             `
@@ -114,6 +120,9 @@ const createTables = () => {
 
 
 
+
+//routes
+app.use('/users', userRouter);
 
 
 //get all posts
