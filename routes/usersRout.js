@@ -99,4 +99,38 @@ router.put('/update/:email', (req, res) => {
     
 });
 
+//delete user
+router.delete('/delete/:email', (req, res) =>{
+    const { email } = req.params;
+    
+    pool.query(
+        "SELECT * FROM users WHERE email =? ",
+        [email],
+        (error, results) =>{
+            if(error){
+               console.error("Error checking user", error);
+               return res.json({message: "Error checking user"}); 
+            }
+
+            if(results.length === 0){
+                console.log("User not found");
+                return res.json({message: "User not found"});
+            }
+
+       
+    pool.query(
+        "DELETE FROM users WHERE email = ?",
+        [email],
+        (error, results) => {
+            if(error){
+                console.error("Faild to delete user", error);
+                req.json({error: "Faild to delete user"});
+            }
+
+            console.log("User deleted");
+            res.json({message: "User deleted."});
+        });
+    });
+});
+
 export default router;
