@@ -5,7 +5,7 @@ import jwt from 'jsonwebtoken';
 
 //register user
 export  const registerUser = async (req, res) => {
-    const { email, name, surname, password } = req.body;
+    const { email, name, surname, password, role } = req.body;
 
     //basic validation
     if (!email) {
@@ -38,8 +38,9 @@ export  const registerUser = async (req, res) => {
                 console.error("Error hashing password");
                 return res.status(500).json({ error: "Password hasing faild"});
             }
+            
 
-            const user = { email, name, surname, password: hash};
+            const user = { email, name, surname, password: hash, role: 'user'};
 
             //now insert user
             pool.query("INSERT INTO users SET ? ",
@@ -136,3 +137,4 @@ export const loginUser = (req, res) => {
         });
     });
 };
+
