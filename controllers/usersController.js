@@ -191,3 +191,11 @@ export const loginUser = (req, res) => {
         });
     });
 };
+
+export const userProfile = (req, res) => {
+    res.json({ message: `Welcome user, ${req.user.email}`});
+};
+
+export const adminDashboard = (req, res) => {
+    res.json({ message: `Welcome Admin, ${req.user.email}!` });
+};
