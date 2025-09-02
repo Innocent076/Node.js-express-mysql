@@ -25,6 +25,11 @@ export const registerUser = async (req, res) => {
         return res.status(400).json({ error: 'All fields are required' });
     }
 
+    //validate email format
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.status(400).json({ error: "Invalid email format" });
+    }
+
     /*
     //choose email validity using MailboxlayerAPI
     try {
