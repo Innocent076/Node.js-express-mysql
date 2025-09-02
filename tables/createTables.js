@@ -10,7 +10,6 @@ export async function createTable() {
       password VARCHAR(255) NOT NULL,
       profile_picture VARCHAR(255),
       role ENUM('user','admin') DEFAULT 'user',
-      status ENUM('active','blocked','deleted') NOT NULL DEFAULT 'active',
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
       updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
     )`,
